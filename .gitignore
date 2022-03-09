@@ -2,6 +2,7 @@
 .idea/
 *.iml
 *.iws
+.jpb
 
 # Mac
 .DS_Store
