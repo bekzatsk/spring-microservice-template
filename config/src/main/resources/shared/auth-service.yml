@@ -3,9 +3,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/microservice_tmp
     username: postgres
     password: postgres
-#    url: ${POSTGRES_DB}
-#    username: ${POSTGRES_USER}
-#    password: ${POSTGRES_PASSWORD}
 
     driverClassName: org.postgresql.Driver
     platform: postgres

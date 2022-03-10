@@ -22,6 +22,6 @@ security:
     resource:
       user-info-uri: http://localhost:5001/uaa/users/current
 
-#spring:
-#  rabbitmq:
-#    host: rabbitmq
+spring:
+  rabbitmq:
+    host: localhost

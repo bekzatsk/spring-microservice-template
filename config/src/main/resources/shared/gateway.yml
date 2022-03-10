@@ -23,11 +23,11 @@ zuul:
         stripPrefix: false
         sensitiveHeaders:
 
-#    account-service:
-#        path: /accounts/**
-#        serviceId: account-service
-#        stripPrefix: false
-#        sensitiveHeaders:
+    user-service:
+        path: /user/**
+        serviceId: user-service
+        stripPrefix: false
+        sensitiveHeaders:
 #
 #    statistics-service:
 #        path: /statistics/**

@@ -16,8 +16,8 @@ import javax.persistence.Table
 import kotlin.jvm.Transient
 
 
-@Entity(name = "Users")
-@Table(name = "users")
+@Entity(name = "USERS")
+@Table(name = "USERS")
 @JsonIgnoreProperties(value = ["password", "path", "rolesCollection"], allowGetters = false)
 @TypeDefs(
     TypeDef(
@@ -47,7 +47,7 @@ class User(): Auditable() {
     var username: String = ""
         set(value) {
 //            if (UserService.isUsernameValid(value.lowercase())) {
-                field = value.lowercase()
+                field = value.lowercase().trim()
 //            }
         }
 
@@ -55,8 +55,14 @@ class User(): Auditable() {
     var email: String = ""
         set(value) {
 //            if (UserService.isEmailValid(value.lowercase())) {
-                field = value.lowercase()
+                field = value.lowercase().trim()
 //            }
+        }
+
+    @Column(name = "PHONE", unique = true)
+    var phone: String = ""
+        set(value) {
+            field = value.trim()
         }
 
     @Column(name = "PASSWORD", columnDefinition = "character varying", nullable = false)

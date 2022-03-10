@@ -1,0 +1,23 @@
+security:
+  oauth2:
+    client:
+      clientId: account-service
+      clientSecret: ${ACCOUNT_SERVICE_PASSWORD}
+      accessTokenUri: http://localhost:5001/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/microservice_tmp
+    username: postgres
+    password: postgres
+
+server:
+  servlet:
+    context-path: /users
+  port: 6000
+
+feign:
+  hystrix:
+    enabled: true

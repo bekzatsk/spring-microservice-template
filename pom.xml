@@ -36,9 +36,12 @@
 
     <modules>
         <module>config</module>
+        <module>monitoring</module>
         <module>discovery</module>
         <module>gateway</module>
         <module>auth-service</module>
+        <module>user-service</module>
+        <module>turbine-stream-service</module>
     </modules>
 
 </project>
