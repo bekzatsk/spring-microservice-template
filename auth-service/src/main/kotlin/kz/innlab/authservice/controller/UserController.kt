@@ -31,7 +31,7 @@ class UserController {
     }
 
 //    @PreAuthorize("#oauth2.hasScope('server')")
-    @PostMapping()
+    @PostMapping("/create")
     fun createUser(@Valid @RequestBody user: User) {
         userService.create(user)
     }

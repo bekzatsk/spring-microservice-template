@@ -10,10 +10,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 
@@ -21,10 +20,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Autowired
-    internal var userDetailsService: UserDetailsServiceImpl? = null
+    private lateinit var userDetailsService: UserDetailsService
 
     @Autowired
-    private val unauthorizedHandler: JwtAuthEntryPoint? = null
+    private lateinit var unauthorizedHandler: JwtAuthEntryPoint
 
     @Bean
     fun bCryptPasswordEncoder(): BCryptPasswordEncoder {
@@ -52,7 +51,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http.csrf().disable().authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/actuator/**", "/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()

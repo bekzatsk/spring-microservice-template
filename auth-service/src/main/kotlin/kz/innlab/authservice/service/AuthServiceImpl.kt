@@ -77,7 +77,7 @@ class AuthServiceImpl: AuthService {
             status["message"] = "OK"
             status["value"] = JwtAuthenticationResponse(jwtToken, refreshToken, tokenProvider.getExpiryDuration())
             return status
-        } catch (e: Exception){
+        } catch (e: Exception) {
             if(userCandidate.get().loginAttempts!! >= 5){
                 if(userCandidate.get().isBlocked == null) {
                     userCandidate.get().isBlocked = Timestamp(System.currentTimeMillis())
