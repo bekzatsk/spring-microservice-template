@@ -1,6 +1,6 @@
 package kz.innlab.userservice.repository
 
-import kz.innlab.userservice.model.UserDetails
+import kz.innlab.userservice.model.Account
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
@@ -8,8 +8,9 @@ import java.util.*
  * @project microservice-template
  * @author Bekzat Sailaubayev on 09.03.2022
  */
-interface UserDetailsRepository: JpaRepository<UserDetails, UUID> {
+interface AccountRepository: JpaRepository<Account, UUID> {
 
-    fun findByUserId(userId: UUID): Optional<UserDetails>
+    fun findByName(name: String): Optional<Account>
+    fun findByUserId(userId: UUID): Optional<Account>
 
 }

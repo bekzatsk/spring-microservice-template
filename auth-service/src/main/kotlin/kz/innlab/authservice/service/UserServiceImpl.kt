@@ -24,9 +24,8 @@ class UserServiceImpl: UserService {
     override fun create(user: User) {
         val existing = repository.findByUsernameIgnoreCase(user.username)
         existing.ifPresent { it -> throw IllegalArgumentException("user already exists: " + it.username) }
-
-        val hash: String = encoder.encode(user.password)
-        user.password = hash
+        println(user.password)
+        user.password = encoder.encode(user.password)
 
         repository.save(user)
 

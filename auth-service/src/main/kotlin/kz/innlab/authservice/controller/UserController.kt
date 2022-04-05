@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 import java.security.Principal
+import java.util.*
 import javax.validation.Valid
 
 /**
@@ -30,9 +31,10 @@ class UserController {
         return principal
     }
 
-//    @PreAuthorize("#oauth2.hasScope('server')")
+    @PreAuthorize("#oauth2.hasScope('server')")
     @PostMapping("/create")
-    fun createUser(@Valid @RequestBody user: User) {
+    fun createUser(@Valid @RequestBody user: User): UUID? {
         userService.create(user)
+        return user.id
     }
 }

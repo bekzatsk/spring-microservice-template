@@ -1,10 +1,10 @@
-package kz.innlab.monitoring
+package kz.innlab.userservice
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class MonitoringApplicationTests {
+class AccountServiceApplicationTests {
 
     @Test
     fun contextLoads() {

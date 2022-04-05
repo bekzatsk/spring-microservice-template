@@ -23,11 +23,13 @@ class UserDetailsServiceImpl: UserDetailsService {
 
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails {
+        println("Izdei ma?")
         val user = userRepository.findByUsernameIgnoreCaseAndDeletedAtIsNull(username).get()
             ?: throw UsernameNotFoundException("User '$username' not found")
 
         val authorities: List<GrantedAuthority> = user.rolesCollection.stream().map { role -> SimpleGrantedAuthority("ROLE_${role.name}") }
             .collect(Collectors.toList<GrantedAuthority>())
+        println("User has: ${user.username}")
 
         val userPrincipal = org.springframework.security.core.userdetails.User
             .withUsername(username)

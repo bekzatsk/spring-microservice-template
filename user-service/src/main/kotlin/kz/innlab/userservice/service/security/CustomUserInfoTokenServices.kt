@@ -17,23 +17,17 @@ import org.springframework.security.oauth2.provider.token.ResourceServerTokenSer
 import java.util.*
 
 /**
- * @project microservice-template
- * @author Bekzat Sailaubayev on 09.03.2022
+ * Extended implementation of [org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices]
+ *
+ * By default, it designed to return only user details. This class provides [.getRequest] method, which
+ * returns clientId and scope of calling service. This information used in controller's security checks.
  */
-class CustomUserInfoTokenServices(userInfoEndpointUrl: String, clientId: String) :
+class CustomUserInfoTokenServices(private val userInfoEndpointUrl: String, private val clientId: String) :
     ResourceServerTokenServices {
-    protected val logger = LogFactory.getLog(javaClass)
-    private val userInfoEndpointUrl: String
-    private val clientId: String
+    private val logger = LogFactory.getLog(javaClass)
     private var restTemplate: OAuth2RestOperations? = null
     private var tokenType = DefaultOAuth2AccessToken.BEARER_TYPE
     private var authoritiesExtractor: AuthoritiesExtractor = FixedAuthoritiesExtractor()
-
-    init {
-        this.userInfoEndpointUrl = userInfoEndpointUrl
-        this.clientId = clientId
-    }
-
     fun setTokenType(tokenType: String) {
         this.tokenType = tokenType
     }
@@ -88,7 +82,7 @@ class CustomUserInfoTokenServices(userInfoEndpointUrl: String, clientId: String)
         )
     }
 
-    override fun readAccessToken(accessToken: String?): OAuth2AccessToken {
+    override fun readAccessToken(accessToken: String): OAuth2AccessToken {
         throw UnsupportedOperationException("Not supported: read access token")
     }
 
@@ -101,16 +95,15 @@ class CustomUserInfoTokenServices(userInfoEndpointUrl: String, clientId: String)
                 resource.clientId = clientId
                 restTemplate = OAuth2RestTemplate(resource)
             }
-            val existingToken = restTemplate.getOAuth2ClientContext()
+            val existingToken = restTemplate.oAuth2ClientContext
                 .accessToken
             if (existingToken == null || accessToken != existingToken.value) {
                 val token = DefaultOAuth2AccessToken(
                     accessToken
                 )
                 token.tokenType = tokenType
-                restTemplate.getOAuth2ClientContext().accessToken = token
+                restTemplate.oAuth2ClientContext.accessToken = token
             }
-
             val resultBody = restTemplate.getForEntity(path, MutableMap::class.java).body
             val result: MutableMap<String, Any?> = mutableMapOf()
             if (!resultBody.isNullOrEmpty()) {

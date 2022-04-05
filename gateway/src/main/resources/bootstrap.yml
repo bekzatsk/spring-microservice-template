@@ -7,3 +7,17 @@ spring:
       fail-fast: true
       password: ${CONFIG_SERVICE_PASSWORD}
       username: user
+
+    gateway:
+      routes:
+        - id: user_service
+          uri: lb://USER-SERVICE/
+          predicates:
+            - Path=/users/**
+        - id: auth_service
+          uri: lb://AUTH-SERVICE/
+          predicates:
+            - Path=/uaa/**
+      discovery:
+        locator:
+          enabled: true

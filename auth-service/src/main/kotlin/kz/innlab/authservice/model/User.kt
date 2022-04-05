@@ -18,7 +18,7 @@ import kotlin.jvm.Transient
 
 @Entity(name = "USERS")
 @Table(name = "USERS")
-@JsonIgnoreProperties(value = ["password", "path", "rolesCollection"], allowGetters = false)
+@JsonIgnoreProperties(value = ["password", "path", "rolesCollection"], allowGetters = false, allowSetters = true)
 @TypeDefs(
     TypeDef(
         name = "string-array",

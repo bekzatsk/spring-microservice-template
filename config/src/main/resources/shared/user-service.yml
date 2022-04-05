@@ -1,23 +1,35 @@
-security:
-  oauth2:
-    client:
-      clientId: account-service
-      clientSecret: ${ACCOUNT_SERVICE_PASSWORD}
-      accessTokenUri: http://localhost:5001/uaa/oauth/token
-      grant-type: client_credentials
-      scope: server
-
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/microservice_tmp
     username: postgres
     password: postgres
 
+    driverClassName: org.postgresql.Driver
+    platform: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
 server:
   servlet:
     context-path: /users
-  port: 6000
+  port: 6008
 
 feign:
   hystrix:
     enabled: true
+
+security:
+  oauth2:
+    client:
+      client-secret: password
+      client-id: user-service
+      access-token-uri: http://auth-service/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server
