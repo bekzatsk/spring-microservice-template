@@ -44,7 +44,6 @@ class OAuth2AuthorizationConfig : AuthorizationServerConfigurerAdapter() {
         // @formatter:off
         clients.inMemory()
             .withClient("browser")
-            .secret("password")
             .authorizedGrantTypes("refresh_token", "password")
             .scopes("ui")
             .and()

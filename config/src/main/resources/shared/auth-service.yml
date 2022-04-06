@@ -16,20 +16,20 @@ spring:
           lob:
             non_contextual_creation: true
 
-assm:
-  app:
-    jwtExpiration: 86400
-    jwtSecret: jwtAssmKeySecret@34ADilet02MDsP
-app:
-  token:
-    email:
-      verification:
-        duration: 3600000
-    password:
-      reset:
-        duration: 3600000
-    refresh:
-      duration: 604800000
+#assm:
+#  app:
+#    jwtExpiration: 86400
+#    jwtSecret: jwtAssmKeySecret@34ADilet02MDsP
+#app:
+#  token:
+#    email:
+#      verification:
+#        duration: 3600000
+#    password:
+#      reset:
+#        duration: 3600000
+#    refresh:
+#      duration: 604800000
 
 server:
   servlet:

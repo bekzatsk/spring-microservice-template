@@ -10,16 +10,3 @@ spring:
 
   main:
     allow-bean-definition-overriding: true
-
-  security:
-    user:
-      password: password
-
-security:
-  oauth2:
-    client:
-      client-secret: password
-      client-id: user-service
-      access-token-uri: http://auth-service/uaa/oauth/token
-      grant-type: client_credentials
-      scope: server

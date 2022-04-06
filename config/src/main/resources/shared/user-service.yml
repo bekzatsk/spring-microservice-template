@@ -30,6 +30,6 @@ security:
     client:
       client-secret: password
       client-id: user-service
-      access-token-uri: http://auth-service/uaa/oauth/token
+      access-token-uri: http://localhost:5001/uaa/oauth/token
       grant-type: client_credentials
       scope: server
