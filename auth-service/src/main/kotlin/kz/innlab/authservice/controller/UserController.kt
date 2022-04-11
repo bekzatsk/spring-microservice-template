@@ -27,11 +27,11 @@ class UserController {
     private lateinit var userService: UserService
 
     @GetMapping("/current")
-    fun getUser(principal: Principal?): Principal? {
+    fun getUser(principal: Principal): Principal {
         return principal
     }
 
-    @PreAuthorize("#oauth2.hasScope('server')")
+    @PreAuthorize("#oauth2.hasScope('server') or hasAnyRole('ADMIN')")
     @PostMapping("/create")
     fun createUser(@Valid @RequestBody user: User): UUID? {
         userService.create(user)

@@ -1,14 +1,17 @@
 package kz.innlab.userservice.service
 
+import io.github.resilience4j.circuitbreaker.CircuitBreaker
 import kz.innlab.userservice.client.AuthServiceClient
 import kz.innlab.userservice.model.Account
 import kz.innlab.userservice.model.User
 import kz.innlab.userservice.repository.AccountRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory
 import org.springframework.stereotype.Service
-import org.springframework.util.Assert
 import java.util.*
+import java.util.function.Supplier
+
 
 /**
  * @project microservice-template
@@ -34,7 +37,14 @@ class AccountServiceImpl: AccountService {
             log.warn("new account has been created: " + user.username)
         }
 
-        val userId = authClient.createUser(user)
+        var userId: UUID? = null
+        try {
+            userId = authClient.createUser(user)
+        } catch (e: Exception) {
+            log.error("500 Error ${e.message}", e)
+            throw Exception("eeeee")
+            return Optional.empty()
+        }
 
         val userDetails = Account()
         userDetails.userId = userId

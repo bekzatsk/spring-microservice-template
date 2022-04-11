@@ -33,7 +33,7 @@ class AccountController {
     }
 
     @GetMapping("/auth")
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     fun getAccount(principal: Authentication): Authentication {
         println(principal.name)
 //        return accountService.findByName(principal.name)

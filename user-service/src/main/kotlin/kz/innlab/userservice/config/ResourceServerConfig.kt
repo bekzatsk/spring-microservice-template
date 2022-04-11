@@ -1,6 +1,7 @@
 package kz.innlab.userservice.config
 
 import feign.RequestInterceptor
+import kz.innlab.userservice.service.security.CustomUserInfoTokenServices
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices
@@ -58,6 +59,7 @@ class ResourceServerConfig @Autowired constructor(
     @Bean
     @Primary
     fun resourceServerTokenServices(): ResourceServerTokenServices {
+//        return CustomUserInfoTokenServices(sso.userInfoUri, sso.clientId)
         return UserInfoTokenServices(sso.userInfoUri, sso.clientId)
     }
 
