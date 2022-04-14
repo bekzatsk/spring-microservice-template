@@ -2,6 +2,7 @@ package kz.innlab.userservice.controller
 
 import kz.innlab.userservice.model.Account
 import kz.innlab.userservice.model.User
+import kz.innlab.userservice.model.payload.UserRequest
 import kz.innlab.userservice.service.AccountService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.access.prepost.PreAuthorize
@@ -46,9 +47,7 @@ class AccountController {
     }
 
     @PostMapping("/create")
-    fun createNewAccount(@Valid @RequestBody user: User): Optional<Account> {
-        println("username: ${user.username}")
-        println("password: ${user.password}")
+    fun createNewAccount(@Valid @RequestBody user: UserRequest): Optional<Account> {
         return accountService.create(user)
     }
 

@@ -2,6 +2,7 @@ package kz.innlab.userservice.service
 
 import kz.innlab.userservice.model.Account
 import kz.innlab.userservice.model.User
+import kz.innlab.userservice.model.payload.UserRequest
 import java.util.*
 
 /**
@@ -11,7 +12,7 @@ import java.util.*
 interface AccountService {
 
     fun findByName(name: String): Optional<Account>
-    fun create(user: User): Optional<Account>
+    fun create(user: UserRequest): Optional<Account>
     fun saveChanges(name: String, userDetails: Account)
 
 }

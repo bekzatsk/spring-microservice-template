@@ -24,9 +24,14 @@ class Account {
     @Column(name = "USER_ID", columnDefinition = "UUID", nullable = false)
     var userId: UUID? = null
 
-    @Column(name = "NAME", columnDefinition = "character varying")
-    var name: String? = null
+    @Column(name = "FIRST_NAME", columnDefinition = "character varying")
+    var firstName: String? = null
 
-    @Column(name = "CONTACT_DETAILS", columnDefinition = "character varying")
-    var contactDetails: String? = null
+    @Column(name = "LAST_NAME", columnDefinition = "character varying")
+    var lastName: String? = null
+
+    @Column(name = "MIDDLE_NAME", columnDefinition = "character varying")
+    var middleName: String? = null
+
+    var avatar: UUID? = null
 }

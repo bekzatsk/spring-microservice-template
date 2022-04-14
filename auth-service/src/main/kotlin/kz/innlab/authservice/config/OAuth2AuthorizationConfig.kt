@@ -61,6 +61,8 @@ class OAuth2AuthorizationConfig : AuthorizationServerConfigurerAdapter() {
             .secret("password")
             .authorizedGrantTypes("client_credentials", "refresh_token")
             .scopes("server")
+            .accessTokenValiditySeconds(120)
+            .refreshTokenValiditySeconds(600)
         // @formatter:on
     }
 

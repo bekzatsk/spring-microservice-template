@@ -1,16 +1,13 @@
 package kz.innlab.userservice.service
 
-import io.github.resilience4j.circuitbreaker.CircuitBreaker
 import kz.innlab.userservice.client.AuthServiceClient
 import kz.innlab.userservice.model.Account
-import kz.innlab.userservice.model.User
+import kz.innlab.userservice.model.payload.UserRequest
 import kz.innlab.userservice.repository.AccountRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory
 import org.springframework.stereotype.Service
 import java.util.*
-import java.util.function.Supplier
 
 
 /**
@@ -28,11 +25,11 @@ class AccountServiceImpl: AccountService {
     lateinit var repository: AccountRepository
 
     override fun findByName(name: String): Optional<Account> {
-        return repository.findByName(name)
+        return repository.findByFirstName(name)
     }
 
-    override fun create(user: User): Optional<Account> {
-        val existing = repository.findByName(user.username!!)
+    override fun create(user: UserRequest): Optional<Account> {
+        val existing = repository.findByFirstName(user.username!!)
         if (existing.isPresent) {
             log.warn("new account has been created: " + user.username)
         }
@@ -43,13 +40,14 @@ class AccountServiceImpl: AccountService {
         } catch (e: Exception) {
             log.error("500 Error ${e.message}", e)
             throw Exception("eeeee")
-            return Optional.empty()
         }
 
         val userDetails = Account()
         userDetails.userId = userId
-        userDetails.name = user.username
-        userDetails.contactDetails = ""
+        userDetails.firstName = user.firstName
+        userDetails.lastName = user.lastName
+        userDetails.middleName = user.middleName
+        userDetails.avatar = user.avatar
         repository.save(userDetails)
 
         log.info("new account has been created: " + user.username)

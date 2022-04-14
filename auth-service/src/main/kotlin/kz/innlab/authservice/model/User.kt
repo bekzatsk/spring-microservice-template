@@ -59,12 +59,6 @@ class User(): Auditable() {
 //            }
         }
 
-    @Column(name = "PHONE", unique = true)
-    var phone: String = ""
-        set(value) {
-            field = value.trim()
-        }
-
     @Column(name = "PASSWORD", columnDefinition = "character varying", nullable = false)
     var password: String = ""
 

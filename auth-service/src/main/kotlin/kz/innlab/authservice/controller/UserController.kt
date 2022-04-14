@@ -1,6 +1,7 @@
 package kz.innlab.authservice.controller
 
 import kz.innlab.authservice.model.User
+import kz.innlab.authservice.model.payload.NewUserRequest
 import kz.innlab.authservice.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.access.prepost.PreAuthorize
@@ -33,8 +34,7 @@ class UserController {
 
     @PreAuthorize("#oauth2.hasScope('server') or hasAnyRole('ADMIN')")
     @PostMapping("/create")
-    fun createUser(@Valid @RequestBody user: User): UUID? {
-        userService.create(user)
-        return user.id
+    fun createUser(@Valid @RequestBody user: NewUserRequest): UUID? {
+        return userService.create(user)
     }
 }

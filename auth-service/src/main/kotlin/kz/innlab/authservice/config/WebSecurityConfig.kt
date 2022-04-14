@@ -9,6 +9,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
+
+
+
 
 /**
  * @project microservice-template
@@ -29,10 +33,15 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
         // @formatter:on
     }
 
+    @Bean
+    fun passwordEncoder(): PasswordEncoder {
+        return BCryptPasswordEncoder()
+    }
+
     @Throws(Exception::class)
     override fun configure(auth: AuthenticationManagerBuilder) {
         auth.userDetailsService(userDetailsService)
-            .passwordEncoder(BCryptPasswordEncoder())
+            .passwordEncoder(passwordEncoder())
     }
 
     @Bean

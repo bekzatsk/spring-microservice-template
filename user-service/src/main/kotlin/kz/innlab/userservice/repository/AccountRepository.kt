@@ -9,8 +9,7 @@ import java.util.*
  * @author Bekzat Sailaubayev on 09.03.2022
  */
 interface AccountRepository: JpaRepository<Account, UUID> {
-
-    fun findByName(name: String): Optional<Account>
+    fun findByFirstName(firstName: String): Optional<Account>
     fun findByUserId(userId: UUID): Optional<Account>
 
 }
