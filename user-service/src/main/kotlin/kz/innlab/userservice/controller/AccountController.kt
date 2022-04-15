@@ -26,7 +26,6 @@ class AccountController {
 //    }
 
     @GetMapping("/current")
-//    @PreAuthorize("hasRole('ADMIN')")
     fun getCurrentAccount(principal: Principal): Principal {
         println(principal.name)
 //        return accountService.findByName(principal.name)
@@ -47,6 +46,7 @@ class AccountController {
     }
 
     @PostMapping("/create")
+//    @PreAuthorize("hasRole('ADMIN')")
     fun createNewAccount(@Valid @RequestBody user: UserRequest): Optional<Account> {
         return accountService.create(user)
     }

@@ -28,8 +28,12 @@ feign:
 security:
   oauth2:
     client:
-      client-secret: password
       client-id: user-service
+      client-secret: password
       access-token-uri: http://localhost:5001/uaa/oauth/token
       grant-type: client_credentials
       scope: server
+
+#      clientId: user-service
+#      clientSecret: password
+#      accessTokenUri: http://localhost:5001/uaa/oauth/token

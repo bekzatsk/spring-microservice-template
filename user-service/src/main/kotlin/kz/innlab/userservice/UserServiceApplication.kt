@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @EnableOAuth2Client
 //@EnableOAuth2Sso
 @EnableFeignClients
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 class UserServiceApplication
 
 fun main(args: Array<String>) {

@@ -2,8 +2,10 @@ package kz.innlab.authservice.config
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
+import org.springframework.core.io.ClassPathResource
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.password.NoOpPasswordEncoder
@@ -12,8 +14,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer
-import org.springframework.security.oauth2.provider.token.TokenStore
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory
 
 
 /**
@@ -23,8 +26,6 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 @Configuration
 @EnableAuthorizationServer
 class OAuth2AuthorizationConfig : AuthorizationServerConfigurerAdapter() {
-    private val tokenStore: TokenStore = InMemoryTokenStore()
-    private val NOOP_PASSWORD_ENCODE = "{noop}"
 
     @Autowired
     @Qualifier("authenticationManagerBean")
@@ -36,12 +37,37 @@ class OAuth2AuthorizationConfig : AuthorizationServerConfigurerAdapter() {
     @Autowired
     private val env: Environment? = null
 
+    @Bean
+    fun tokenEnhancer(): JwtAccessTokenConverter {
+        val keyStoreKeyFactory = KeyStoreKeyFactory(ClassPathResource("mytest.jks"), "mypass".toCharArray())
+        val converter = JwtAccessTokenConverter()
+        converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mytest"))
+        return converter
+    }
+
+    @Bean
+    fun tokenStore(): JwtTokenStore {
+        return JwtTokenStore(tokenEnhancer())
+    }
+
     @Throws(Exception::class)
+    override fun configure(endpoints: AuthorizationServerEndpointsConfigurer) {
+        endpoints
+            .authenticationManager(authenticationManager)
+            .tokenStore(tokenStore())
+            .accessTokenConverter(tokenEnhancer())
+    }
+
+    @Throws(Exception::class)
+    override fun configure(security: AuthorizationServerSecurityConfigurer) {
+        security
+            .tokenKeyAccess("permitAll()")
+            .checkTokenAccess("isAuthenticated()")
+            .passwordEncoder(NoOpPasswordEncoder.getInstance())
+    }
+
+    @Throws(java.lang.Exception::class)
     override fun configure(clients: ClientDetailsServiceConfigurer) {
-
-        // TODO persist clients details
-
-        // @formatter:off
         clients.inMemory()
             .withClient("browser")
             .authorizedGrantTypes("refresh_token", "password")
@@ -61,24 +87,7 @@ class OAuth2AuthorizationConfig : AuthorizationServerConfigurerAdapter() {
             .secret("password")
             .authorizedGrantTypes("client_credentials", "refresh_token")
             .scopes("server")
-            .accessTokenValiditySeconds(120)
-            .refreshTokenValiditySeconds(600)
-        // @formatter:on
-    }
-
-    @Throws(Exception::class)
-    override fun configure(endpoints: AuthorizationServerEndpointsConfigurer) {
-        endpoints
-            .tokenStore(tokenStore)
-            .authenticationManager(authenticationManager)
-            .userDetailsService(userDetailsService)
-    }
-
-    @Throws(Exception::class)
-    override fun configure(oauthServer: AuthorizationServerSecurityConfigurer) {
-        oauthServer
-            .tokenKeyAccess("permitAll()")
-            .checkTokenAccess("isAuthenticated()")
-            .passwordEncoder(NoOpPasswordEncoder.getInstance())
+            .accessTokenValiditySeconds(20000)
+            .refreshTokenValiditySeconds(20000)
     }
 }
