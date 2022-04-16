@@ -56,6 +56,7 @@ class OAuth2AuthorizationConfig : AuthorizationServerConfigurerAdapter() {
             .authenticationManager(authenticationManager)
             .tokenStore(tokenStore())
             .accessTokenConverter(tokenEnhancer())
+            .userDetailsService(userDetailsService)
     }
 
     @Throws(Exception::class)
