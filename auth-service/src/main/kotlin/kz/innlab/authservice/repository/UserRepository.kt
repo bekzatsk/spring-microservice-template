@@ -16,6 +16,7 @@ interface UserRepository: JpaRepository<User, UUID> {
     fun findAllByDeletedAtIsNull(page: Pageable): Page<User>
     fun findAllByIdInAndDeletedAtIsNull(@Param("id") ids: List<UUID>, page: Pageable): Page<User>
     fun findAllByIdInAndDeletedAtIsNull(@Param("id") ids: List<UUID>): ArrayList<User>
+    fun findAllBySchoolIdAndDeletedAtIsNull(schoolId: UUID): List<User>
 
     fun findByUsernameAndDeletedAtIsNull(@Param("username") username: String): Optional<User>
     fun findByUsernameIgnoreCaseAndDeletedAtIsNull(@Param("username") username: String): Optional<User>
@@ -27,6 +28,8 @@ interface UserRepository: JpaRepository<User, UUID> {
     fun findByEmailAndDeletedAtIsNull(@Param("email") email: String): Optional<User>
     fun findByEmailIgnoreCaseAndDeletedAtIsNull(@Param("email") email: String): Optional<User>
     fun findByEmailIgnoreCase(@Param("email") email: String): Optional<User>
+
+    fun findAllBySchoolId(@Param("schoolId") schoolId: UUID): ArrayList<User>
 
     @Query("SELECT users.* " +
             "FROM roles " +

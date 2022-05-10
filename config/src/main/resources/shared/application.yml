@@ -21,6 +21,7 @@ security:
   oauth2:
     resource:
       user-info-uri: http://localhost:5001/uaa/users/current
+      token-info-uri: http://localhost:5001/uaa/oauth/check_token
 
 spring:
   rabbitmq:

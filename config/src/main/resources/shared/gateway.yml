@@ -10,38 +10,6 @@
 #  ReadTimeout: 20000
 #  ConnectTimeout: 20000
 
-#zuul:
-#  ignoredServices: '*'
-#  host:
-#    connect-timeout-millis: 20000
-#    socket-timeout-millis: 20000
-#
-#  routes:
-#    auth-service:
-#        path: /uaa/**
-#        url: http://localhost:5001
-#        stripPrefix: false
-#        sensitiveHeaders:
-#
-#    user-service:
-#        path: /user/**
-#        serviceId: user-service
-##        url: http://localhost:6008
-#        stripPrefix: false
-#        sensitiveHeaders:
-#
-#    statistics-service:
-#        path: /statistics/**
-#        serviceId: statistics-service
-#        stripPrefix: false
-#        sensitiveHeaders:
-#
-#    notification-service:
-#        path: /notifications/**
-#        serviceId: notification-service
-#        stripPrefix: false
-#        sensitiveHeaders:
-
 spring:
   cloud:
     gateway:
@@ -50,20 +18,23 @@ spring:
           '[/**]':
             allowedOrigins: "http://localhost:4200"
             allowedHeaders: "*"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
+            allowedMethods: "*"
       routes:
         - id: user_service
           uri: lb://USER-SERVICE/
           predicates:
             - Path=/users/**
+
         - id: auth_service
           uri: lb://AUTH-SERVICE/
           predicates:
             - Path=/uaa/**
+
+        - id: file_service
+          uri: lb://FILE-SERVICE/
+          predicates:
+            - Path=/file/**
+
       discovery:
         locator:
           enabled: true

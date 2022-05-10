@@ -2,8 +2,6 @@ package kz.innlab.userservice.config
 
 import feign.RequestInterceptor
 import org.apache.commons.io.IOUtils
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.cloud.openfeign.security.OAuth2FeignRequestInterceptor
 import org.springframework.context.annotation.Bean
@@ -31,8 +29,7 @@ import java.io.IOException
  */
 @Configuration
 @EnableResourceServer
-class ResourceServerConfig @Autowired constructor(private val sso: ResourceServerProperties) :
-    ResourceServerConfigurerAdapter() {
+class ResourceServerConfig: ResourceServerConfigurerAdapter() {
 
     override fun configure(config: ResourceServerSecurityConfigurer) {
         config.tokenServices(tokenServices())

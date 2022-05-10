@@ -1,4 +1,4 @@
-package kz.innlab.userservice.config
+package kz.innlab.userservice.config.custom
 
 import org.aopalliance.intercept.MethodInvocation
 import org.springframework.expression.spel.support.StandardEvaluationContext

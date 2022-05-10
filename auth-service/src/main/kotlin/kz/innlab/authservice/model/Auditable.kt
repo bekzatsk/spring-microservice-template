@@ -1,9 +1,7 @@
 package kz.innlab.authservice.model
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.vladmihalcea.hibernate.type.array.StringArrayType
-//import kz.innlab.edm.reference.model.type.ValueMap
 import lombok.AccessLevel
 import lombok.Getter
 import lombok.Setter
@@ -15,6 +13,7 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 import java.io.Serializable
 import java.sql.Timestamp
 import java.util.*

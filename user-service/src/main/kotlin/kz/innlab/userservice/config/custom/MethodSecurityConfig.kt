@@ -1,4 +1,4 @@
-package kz.innlab.authservice.config
+package kz.innlab.userservice.config.custom
 
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity

@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory
@@ -35,7 +36,7 @@ class OAuth2AuthorizationConfig : AuthorizationServerConfigurerAdapter() {
     private lateinit var userDetailsService: UserDetailsService
 
     @Autowired
-    private val env: Environment? = null
+    private lateinit var env: Environment
 
     @Bean
     fun tokenEnhancer(): JwtAccessTokenConverter {
@@ -52,9 +53,12 @@ class OAuth2AuthorizationConfig : AuthorizationServerConfigurerAdapter() {
 
     @Throws(Exception::class)
     override fun configure(endpoints: AuthorizationServerEndpointsConfigurer) {
+        val tokenEnhancerChain = TokenEnhancerChain()
+        tokenEnhancerChain.setTokenEnhancers(listOf(CustomTokenEnhancer(), tokenEnhancer()))
         endpoints
             .authenticationManager(authenticationManager)
             .tokenStore(tokenStore())
+            .tokenEnhancer(tokenEnhancerChain)
             .accessTokenConverter(tokenEnhancer())
             .userDetailsService(userDetailsService)
     }
@@ -75,17 +79,22 @@ class OAuth2AuthorizationConfig : AuthorizationServerConfigurerAdapter() {
             .scopes("ui")
             .and()
             .withClient("user-service")
-            .secret("password")
+            .secret(env.getProperty("USER_SERVICE_PASSWORD"))
             .authorizedGrantTypes("client_credentials", "refresh_token")
             .scopes("server")
             .and()
-            .withClient("statistics-service")
-            .secret("password")
+            .withClient("file-service")
+            .secret(env.getProperty("FILE_SERVICE_PASSWORD"))
             .authorizedGrantTypes("client_credentials", "refresh_token")
             .scopes("server")
             .and()
-            .withClient("notification-service")
-            .secret("password")
+            .withClient("school-service")
+            .secret(env.getProperty("SCHOOL_SERVICE_PASSWORD"))
+            .authorizedGrantTypes("client_credentials", "refresh_token")
+            .scopes("server")
+            .and()
+            .withClient("report-service")
+            .secret(env.getProperty("REPORT_SERVICE_PASSWORD"))
             .authorizedGrantTypes("client_credentials", "refresh_token")
             .scopes("server")
             .accessTokenValiditySeconds(20000)

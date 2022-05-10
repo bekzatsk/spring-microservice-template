@@ -15,4 +15,5 @@ class NewUserRequest {
     var enabled: Boolean? = null
     var isBlocked: Timestamp? = null
     var roles: ArrayList<String> = arrayListOf()
+    var schoolId: UUID? = null
 }

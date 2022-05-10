@@ -1,6 +1,5 @@
 package kz.innlab.userservice.model.payload
 
-import java.sql.Timestamp
 import java.util.*
 
 /**
@@ -9,9 +8,11 @@ import java.util.*
  */
 class UserRequest {
     var id: UUID? = null
+    var schoolId: UUID? = null
     var firstName: String? = null
     var lastName: String? = null
     var middleName: String? = null
+    var fio: String? = null
     var username: String = ""
     var email: String = ""
     var password: String = ""

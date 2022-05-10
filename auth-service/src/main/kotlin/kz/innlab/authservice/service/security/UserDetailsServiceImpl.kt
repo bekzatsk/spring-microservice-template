@@ -1,6 +1,5 @@
 package kz.innlab.authservice.service.security
 
-//import kz.innlab.edm.structure.service.RolesGroupService
 import kz.innlab.authservice.model.UserPrincipal
 import kz.innlab.authservice.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,7 +20,6 @@ class UserDetailsServiceImpl: UserDetailsService {
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails {
         val user = userRepository.findByUsernameIgnoreCaseAndDeletedAtIsNull(username).get()
-            ?: throw UsernameNotFoundException("User '$username' not found")
 
         val authorities: List<GrantedAuthority> = user.rolesCollection.stream().map { role -> SimpleGrantedAuthority("ROLE_${role.name}") }
             .collect(Collectors.toList<GrantedAuthority>())

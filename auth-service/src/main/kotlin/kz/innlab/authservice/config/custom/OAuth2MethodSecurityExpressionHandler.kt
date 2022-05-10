@@ -1,4 +1,4 @@
-package kz.innlab.authservice.config
+package kz.innlab.authservice.config.custom
 
 import org.aopalliance.intercept.MethodInvocation
 import org.springframework.expression.spel.support.StandardEvaluationContext

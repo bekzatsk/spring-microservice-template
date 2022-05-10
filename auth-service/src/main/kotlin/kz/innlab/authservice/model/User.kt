@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.vladmihalcea.hibernate.type.array.StringArrayType
 import com.vladmihalcea.hibernate.type.array.UUIDArrayType
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType
-//import kz.innlab.edm.reference.model.type.ValueMap
-//import kz.innlab.edm.user.service.UserService
 import org.hibernate.annotations.*
 import java.sql.Timestamp
 import java.util.*
@@ -92,6 +90,8 @@ class User(): Auditable() {
     @Column(name = "IS_BLOCKED")
     var isBlocked: Timestamp? = null
 
+    @Column(name = "SCHOOL_ID")
+    var schoolId: UUID? = null
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH])
     @JoinTable(name = "USERS_ROLES",
@@ -99,29 +99,19 @@ class User(): Auditable() {
         inverseJoinColumns = [JoinColumn(name = "ROLE_ID", referencedColumnName = "id")])
     var rolesCollection: Collection<Role> = listOf()
 
-//    @Transient
-//    var roles: Collection<ValueMap> = listOf()
-//        get() {
-//            field = listOf()
-//            for (item in rolesCollection) {
-//                if (item.deletedAt == null) {
-//                    field = field.plus(ValueMap(item.id!!, item.name))
-//                }
-//            }
-//            return field
-//        }
-//        private set
+    @Transient
+    var roles: List<String> = arrayListOf()
+        get() {
+            field = arrayListOf()
+            for (item in rolesCollection) {
+                field = field.plus(item.name)
+            }
+            return field
+        }
+        private set
 
     // ================================================================================
     fun markVerificationConfirmed() { emailVerified = true }
     fun incrementLoginAttempts() { loginAttempts = loginAttempts!! + 1 }
-
-    fun addRole(roles: Collection<Role>) {
-        for (item in roles) {
-            if (!rolesCollection.contains(item)) {
-                rolesCollection = rolesCollection.plus(item)
-            }
-        }
-    }
 
 }

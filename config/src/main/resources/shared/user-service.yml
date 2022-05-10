@@ -29,11 +29,7 @@ security:
   oauth2:
     client:
       client-id: user-service
-      client-secret: password
+      client-secret: ${USER_SERVICE_PASSWORD}
       access-token-uri: http://localhost:5001/uaa/oauth/token
       grant-type: client_credentials
       scope: server
-
-#      clientId: user-service
-#      clientSecret: password
-#      accessTokenUri: http://localhost:5001/uaa/oauth/token
