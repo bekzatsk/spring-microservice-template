@@ -24,55 +24,25 @@ import javax.persistence.MappedSuperclass
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
 @JsonIgnoreProperties(value = ["deletedAt"], allowGetters = false)
-@TypeDefs(
-    TypeDef(
-        name = "string-array",
-        typeClass = StringArrayType::class
-    )
-)
+@EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @Getter(AccessLevel.PROTECTED)
 @Setter(AccessLevel.PROTECTED)
-abstract class Auditable : Serializable {
+abstract class Auditable<U> : Serializable {
     @CreatedDate
-    @Column(
-        name="created_at",
-        nullable = false,
-        updatable = false)
     var createdAt: Timestamp = Timestamp(System.currentTimeMillis())
         private set
 
-    @Type(type = "string-array")
-    @Column(
-        name = "creator",
-        columnDefinition = "character varying(256)[]"
-    )
     @CreatedBy
-    private var creator: Array<Array<String>> = arrayOf()
-//        fun getCreator() = Util.arrayToValueMap(this.creator)
-//        fun setCreator(creator: ArrayList<ValueMap>) {
-//            this.creator = Util.valueMapToArray(creator, true)
-//        }
+    protected var creator: U? = null
 
     @LastModifiedDate
     @Column(name="updated_at")
     var updatedAt: Timestamp? = null
 
-    @Type(type = "string-array")
-    @Column(
-        name = "editor",
-        columnDefinition = "character varying(256)[]"
-    )
     @LastModifiedBy
-    private var editor: Array<Array<String>> = arrayOf()
-//        fun getEditor() = Util.arrayToValueMap(this.creator)
-//        fun setEditor(creator: ArrayList<ValueMap>) {
-//            this.creator = Util.valueMapToArray(creator, true)
-//        }
+    private var editor: U? = null
 
     @Column(name="deleted_at")
     var deletedAt: Timestamp? = null
-
-    @Column(name = "owner")
-    var owner: UUID? = null
 
 }
