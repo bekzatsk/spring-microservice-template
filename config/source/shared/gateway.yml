@@ -1,0 +1,41 @@
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: ${CORS_URL}
+            allowedHeaders: "*"
+            allowedMethods: "*"
+      routes:
+        - id: user_service
+          uri: lb://USER-SERVICE/
+          predicates:
+            - Path=/users/**
+
+        - id: auth_service
+          uri: lb://AUTH-SERVICE/
+          predicates:
+            - Path=/uaa/**
+
+        - id: file_service
+          uri: lb://FILE-SERVICE/
+          predicates:
+            - Path=/file/**
+
+        - id: school_service
+          uri: lb://SCHOOL-SERVICE/
+          predicates:
+            - Path=/schools/**
+
+        - id: report_service
+          uri: lb://REPORT-SERVICE/
+          predicates:
+            - Path=/reports/**
+
+      discovery:
+        locator:
+          enabled: true
+
+server:
+  port: 4000

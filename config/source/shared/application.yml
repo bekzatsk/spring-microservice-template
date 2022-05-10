@@ -1,0 +1,28 @@
+logging:
+  level:
+    org.springframework.security: INFO
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000
+
+eureka:
+  instance:
+    prefer-ip-address: false
+  client:
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://auth-service:5001/uaa/users/current
+      token-info-uri: http://auth-service:5001/uaa/oauth/check_token
+
+spring:
+  rabbitmq:
+    host: rabbitmq

@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    config:
+      server:
+        native:
+          search-locations:
+            - /app/source/shared
+  profiles:
+    active: native
+  security:
+    user:
+      password: ${CONFIG_SERVICE_PASSWORD}
+
+server:
+  port: 8888
+

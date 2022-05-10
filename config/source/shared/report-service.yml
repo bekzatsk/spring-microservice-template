@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_SERVER}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
+    driverClassName: org.postgresql.Driver
+    platform: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+server:
+  servlet:
+    context-path: /reports
+  port: 2003
+
+feign:
+  hystrix:
+    enabled: true
+
+security:
+  oauth2:
+    client:
+      client-id: report-service
+      client-secret: ${REPORT_SERVICE_PASSWORD}
+      access-token-uri: http://auth-service:5001/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server
