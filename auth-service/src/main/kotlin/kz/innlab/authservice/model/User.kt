@@ -31,7 +31,7 @@ import kotlin.jvm.Transient
         typeClass = JsonBinaryType::class
     )
 )
-class User(): Auditable() {
+class User(): Auditable<String?>() {
 
     @Id
     @GeneratedValue(generator = "UUID")
